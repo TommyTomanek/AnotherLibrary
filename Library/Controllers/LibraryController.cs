@@ -57,7 +57,7 @@ namespace Library.Controllers
         {
             return Ok(Books);
         }
-        /*
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetOneBook(int id)
         {
@@ -97,7 +97,7 @@ namespace Library.Controllers
             return Ok(Books);
         }
 
-        [HttpGet]//(Name = nameof(GetAllEmployes))]
+        [HttpGet(Name = nameof(GetAllEmployes))]
         public async Task<ActionResult<List<Employe>>> GetAllEmployes()
         {
             return Ok(Employes);
@@ -190,6 +190,5 @@ namespace Library.Controllers
             return Ok(Customers);
         }
         
-        */
     }
 }
