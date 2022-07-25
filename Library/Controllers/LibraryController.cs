@@ -51,14 +51,14 @@ namespace Library.Controllers
                 LoginName = "Login"
             }
         };
-        
-        [HttpGet("api/[controller]")]
-        public async Task<ActionResult<List<Book>>> GetBooks()
+
+        [HttpGet(Name = nameof(GetAllBooks))]
+        public async Task<ActionResult<List<Book>>> GetAllBooks()
         {
             return Ok(Books);
         }
-        
-        [HttpGet("{id}")]
+
+        [HttpGet("{id}", Name = nameof(GetOneBook))]
         public async Task<ActionResult<Book>> GetOneBook(int id)
         {
             var book = Books.Find((h => h.Id == id));
@@ -66,11 +66,11 @@ namespace Library.Controllers
             {
                 return BadRequest("Book not found");
             }
-            
+
             return Ok(book);
         }
 
-        [HttpPut("{request}")]
+        [HttpPut("{request}", Name = nameof(AppendBook))]
         public async Task<ActionResult<List<Book>>> AppendBook(Book request)
         {
             var book = Books.Find(h => h.Id == request.Id);
@@ -80,14 +80,14 @@ namespace Library.Controllers
             return Ok(Books);
         }
 
-        [HttpPost("{book}")]
+        [HttpPost("{book}", Name = nameof(PostBook))]
         public async Task<ActionResult<List<Book>>> PostBook(Book book)
         {
             Books.Add(book);
             return Ok(Books);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = nameof(DeleteBook))]
         public async Task<ActionResult<List<Book>>> DeleteBook(int id)
         {
             var book = Books.Find(h => h.Id == id);
@@ -103,7 +103,7 @@ namespace Library.Controllers
             return Ok(Employes);
         }
 
-        [HttpGet(Name = nameof(GetOneEmploye))]
+        [HttpGet("{id}", Name = nameof(GetOneEmploye))]
         public async Task<ActionResult<Employe>> GetOneEmploye(int id)
         {
             var employe = Employes.Find(h => h.ID == id);
@@ -114,7 +114,7 @@ namespace Library.Controllers
             return Ok(employe);
         }
 
-        [HttpPut]
+        [HttpPut("{request}", Name = nameof(AppendEmploye))]
         public async Task<ActionResult<List<Employe>>> AppendEmploye(Employe request)
         {
             var employe = Employes.Find(h => h.ID == request.ID);
@@ -125,7 +125,7 @@ namespace Library.Controllers
             employe.Mail = request.Mail;
             employe.Mobile = request.Mobile;
             employe.Address = request.Address;
-            
+
             return Ok(Employes);
         }
 
@@ -136,7 +136,7 @@ namespace Library.Controllers
             return Ok(Employes);
         }
 
-        [HttpDelete(Name = nameof(DeleteEmploye))]
+        [HttpDelete("{id}", Name = nameof(DeleteEmploye))]
         public async Task<ActionResult<List<Employe>>> DeleteEmploye(int id)
         {
             var employe = Employes.Find(h => h.ID == id);
@@ -152,7 +152,7 @@ namespace Library.Controllers
             return Ok(Customers);
         }
 
-        [HttpGet(Name = nameof(GetOneCustomer))]
+        [HttpGet("id", Name = nameof(GetOneCustomer))]
         public async Task<ActionResult<Customer>> GetOneCustomer(int id)
         {
             var customer = Customers.Find(h => h.ID == id);
@@ -163,7 +163,7 @@ namespace Library.Controllers
             return Ok(customer);
         }
 
-        [HttpPut]
+        [HttpPut("{request}", Name = nameof(AppendCustomer))]
         public async Task<ActionResult<List<Customer>>> AppendCustomer(Customer request)
         {
             var customer = Customers.Find(h => h.ID == request.ID);
@@ -180,7 +180,7 @@ namespace Library.Controllers
         }
         
 
-        [HttpDelete(Name = nameof(DeleteCustomer))]
+        [HttpDelete("{id}", Name = nameof(DeleteCustomer))]
         public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)
         {
             var customer = Customers.Find(h => h.ID == id);
@@ -189,6 +189,6 @@ namespace Library.Controllers
             Customers.Remove(customer);
             return Ok(Customers);
         }
-        
+        //*/
     }
 }
