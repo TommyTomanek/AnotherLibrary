@@ -30,7 +30,7 @@ namespace Library.Controllers
             new Employe
             {
                 Id = 1,
-                IdSuperior = 1,
+                SuperiorId = 1,
                 Name = "Employe",
                 Surname = "Employe",
                 Mail = "user@domain.eu",

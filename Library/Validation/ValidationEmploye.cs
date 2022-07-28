@@ -13,7 +13,7 @@ namespace Library.Validation
             RuleFor(x => x.Address).NotEmpty().WithMessage("Specify your address");
             RuleFor(x => x.Mobile).NotEmpty().WithMessage("Specify your telephone number");
             RuleFor(x => x.Mail).NotEmpty().WithMessage("Specify your mail address");
-            RuleFor(x => x.IdSuperior).NotEmpty().WithMessage("Who is your superior");
+            RuleFor(x => x.SuperiorId).NotEmpty().WithMessage("Who is your superior");
         }
     }
 }

@@ -11,6 +11,11 @@
         public string Mobile { get; set; }
         public string Address { get; set; }
         */
-        public int IdSuperior { get; set; }
+        public int SuperiorId { get; set; }
+
+        public Employe Superior { get; set; }
+
+
+        public List<Employe> Inferiors { get; set; }
     }
 }

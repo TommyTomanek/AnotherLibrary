@@ -1,7 +1,7 @@
 ﻿using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Data
 {
@@ -14,34 +14,17 @@ namespace Library.Data
 
 
 
-        public void OnModelCreating(DbModelBuilder modelbuilder)
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<Person>()
                 .HasKey(at => new { at.Id });
 
-           // modelbuilder.Entity<Employe>().HasMany(x => x.IdSuperior)
-            /*
-            builder.Entity<MenuItemBase>(eb =>
-            {
-                eb.HasIndex(x => x.DomainId);
-                eb.HasOne(x => x.Parent).WithMany(x => x.Children).HasForeignKey(x => x.ParentId).OnDelete(DeleteBehavior.Restrict);
-                eb.SetupMultiLanguage(x => x.Name, 200);
-                eb
-                    .HasDiscriminator<int>("_ModelType")
-                    .HasValue<MenuItemStructure>(1)
-                    .HasValue<MenuItemProcess>(2);
-                builder.Entity<MenuItemStructure>().Property(x => x.Icon).HasMaxLength(35).IsUnicode(false);
-            });
-            */
 
+            modelbuilder.Entity<Person>().HasDiscriminator<int>("PersonType").HasValue<Employe>(1).HasValue<Customer>(2);
 
-            modelbuilder.Entity<Person>()
-                .Map<Employe>(m => m.Requires("PersonType").HasValue(1))
-                .Map<Customer>(m => m.Requires("PersonType").HasValue(2));     
-                
+            modelbuilder.Entity<Employe>().HasOne(x => x.Superior).WithMany(x => x.Inferiors).HasForeignKey(x => x.SuperiorId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
+
         }
-
-        private static readonly object context;
         public DataContext()
         {
         }
