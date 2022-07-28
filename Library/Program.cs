@@ -1,25 +1,31 @@
 global using Library.Data;
+using FluentValidation.AspNetCore;
 using Library.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(c =>
+    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-//--
+
+
+/*//--
 builder.Services.AddSwaggerGen(c => {
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
     c.IgnoreObsoleteActions();
     c.IgnoreObsoleteProperties();
     c.CustomSchemaIds(type => type.FullName);
 });
-//--
+*///--
 
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 

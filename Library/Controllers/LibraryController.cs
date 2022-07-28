@@ -29,7 +29,8 @@ namespace Library.Controllers
         {
             new Employe
             {
-                ID = 1,
+                Id = 1,
+                IdSuperior = 1,
                 Name = "Employe",
                 Surname = "Employe",
                 Mail = "user@domain.eu",
@@ -42,7 +43,7 @@ namespace Library.Controllers
         {
             new Customer
             {
-                ID = 1,
+                Id = 1,
                 Name = "Employe",
                 Surname = "Employe",
                 Mail = "user@domain.eu",
@@ -52,13 +53,13 @@ namespace Library.Controllers
             }
         };
 
-        [HttpGet(Name = nameof(GetAllBooks))]
+        [HttpGet("Books")]
         public async Task<ActionResult<List<Book>>> GetAllBooks()
         {
             return Ok(Books);
         }
 
-        [HttpGet("{id}", Name = nameof(GetOneBook))]
+        [HttpGet("Books/{id}")]
         public async Task<ActionResult<Book>> GetOneBook(int id)
         {
             var book = Books.Find((h => h.Id == id));
@@ -70,9 +71,10 @@ namespace Library.Controllers
             return Ok(book);
         }
 
-        [HttpPut("{request}", Name = nameof(AppendBook))]
+        [HttpPut("Books")]
         public async Task<ActionResult<List<Book>>> AppendBook(Book request)
         {
+
             var book = Books.Find(h => h.Id == request.Id);
             if (book == null)
                 return BadRequest("Book not found");
@@ -80,14 +82,14 @@ namespace Library.Controllers
             return Ok(Books);
         }
 
-        [HttpPost("{book}", Name = nameof(PostBook))]
+        [HttpPost("Books")]
         public async Task<ActionResult<List<Book>>> PostBook(Book book)
         {
             Books.Add(book);
             return Ok(Books);
         }
 
-        [HttpDelete("{id}", Name = nameof(DeleteBook))]
+        [HttpDelete("Books/{id}")]
         public async Task<ActionResult<List<Book>>> DeleteBook(int id)
         {
             var book = Books.Find(h => h.Id == id);
@@ -97,16 +99,16 @@ namespace Library.Controllers
             return Ok(Books);
         }
 
-        [HttpGet(Name = nameof(GetAllEmployes))]
+        [HttpGet("Employes")]
         public async Task<ActionResult<List<Employe>>> GetAllEmployes()
         {
             return Ok(Employes);
         }
 
-        [HttpGet("{id}", Name = nameof(GetOneEmploye))]
+        [HttpGet("Employes/{id}")]
         public async Task<ActionResult<Employe>> GetOneEmploye(int id)
         {
-            var employe = Employes.Find(h => h.ID == id);
+            var employe = Employes.Find(h => h.Id == id);
             if (Employes == null)
             {
                 return BadRequest("Employe not found");
@@ -114,12 +116,12 @@ namespace Library.Controllers
             return Ok(employe);
         }
 
-        [HttpPut("{request}", Name = nameof(AppendEmploye))]
+        [HttpPut("Employes")]
         public async Task<ActionResult<List<Employe>>> AppendEmploye(Employe request)
         {
-            var employe = Employes.Find(h => h.ID == request.ID);
+            var employe = Employes.Find(h => h.Id == request.Id);
             if (employe == null)
-                return BadRequest("Book not found");
+                return BadRequest("Employe not found");
             employe.Name = request.Name;
             employe.Surname = request.Surname;
             employe.Mail = request.Mail;
@@ -129,33 +131,33 @@ namespace Library.Controllers
             return Ok(Employes);
         }
 
-        [HttpPost]
+        [HttpPost("Employes")]
         public async Task<ActionResult<List<Employe>>> AddEmploye(Employe request)
         {
             Employes.Add(request);
             return Ok(Employes);
         }
 
-        [HttpDelete("{id}", Name = nameof(DeleteEmploye))]
+        [HttpDelete("Employes/{id}")]
         public async Task<ActionResult<List<Employe>>> DeleteEmploye(int id)
         {
-            var employe = Employes.Find(h => h.ID == id);
+            var employe = Employes.Find(h => h.Id == id);
             if (employe == null)
-                return BadRequest("Book not Found");
+                return BadRequest("Employe not Found");
             Employes.Remove(employe);
             return Ok(Employes);
         }
 
-        [HttpGet(Name = nameof(GetAllCustomers))]
+        [HttpGet("Customers")]
         public async Task<ActionResult<List<Customer>>> GetAllCustomers()
         {
             return Ok(Customers);
         }
 
-        [HttpGet("id", Name = nameof(GetOneCustomer))]
+        [HttpGet("Customers/{id}")]
         public async Task<ActionResult<Customer>> GetOneCustomer(int id)
         {
-            var customer = Customers.Find(h => h.ID == id);
+            var customer = Customers.Find(h => h.Id == id);
             if (customer == null)
             {
                 return BadRequest("Customer not Found");
@@ -163,12 +165,19 @@ namespace Library.Controllers
             return Ok(customer);
         }
 
-        [HttpPut("{request}", Name = nameof(AppendCustomer))]
+        [HttpPost("Customers")]
+        public async Task<ActionResult<List<Employe>>> AddCustomer(Customer request)
+        {
+            Customers.Add(request);
+            return Ok(Customers);
+        }
+
+        [HttpPut("Customers")]
         public async Task<ActionResult<List<Customer>>> AppendCustomer(Customer request)
         {
-            var customer = Customers.Find(h => h.ID == request.ID);
+            var customer = Customers.Find(h => h.Id == request.Id);
             if (customer == null)
-                return BadRequest("Book not found");
+                return BadRequest("Customer not found");
             customer.Name = request.Name;
             customer.Surname = request.Surname;
             customer.Mail = request.Mail;
@@ -180,12 +189,12 @@ namespace Library.Controllers
         }
         
 
-        [HttpDelete("{id}", Name = nameof(DeleteCustomer))]
+        [HttpDelete("Customers/{id}")]
         public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)
         {
-            var customer = Customers.Find(h => h.ID == id);
+            var customer = Customers.Find(h => h.Id == id);
             if (customer == null)
-                return BadRequest("Book not Found");
+                return BadRequest("Customer not Found");
             Customers.Remove(customer);
             return Ok(Customers);
         }
