@@ -15,5 +15,16 @@ namespace Library.Validation
             RuleFor(x => x.Mail).NotEmpty().WithMessage("Specify your mail address");
             RuleFor(x => x.LoginName).NotEmpty().WithMessage("You have to enter Login");
         }
+        private bool HasMailOrMobile(string Mobile, string Mail)
+        {
+            if (Mobile == null && Mail == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
