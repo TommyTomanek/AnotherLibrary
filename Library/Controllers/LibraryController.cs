@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Library.Models;
-using Library.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Controllers
 {
@@ -16,53 +16,17 @@ namespace Library.Controllers
             _context = context;
         }
 
-        private static List<Book> Books = new List<Book>
-        {
-            new Book
-            {
-                Id = 1,
-                Author = "Autor"
-            }
-        };
-
-        private static List<Employe> Employes = new List<Employe>
-        {
-            new Employe
-            {
-                Id = 1,
-                SuperiorId = 1,
-                Name = "Employe",
-                Surname = "Employe",
-                Mail = "user@domain.eu",
-                Mobile = "123456789",
-                Address = "Address"
-            }
-        };
-
-        private static List<Customer> Customers = new List<Customer>
-        {
-            new Customer
-            {
-                Id = 1,
-                Name = "Employe",
-                Surname = "Employe",
-                Mail = "user@domain.eu",
-                Mobile = "123456789",
-                Address = "Address",
-                LoginName = "Login"
-            }
-        };
-
         [HttpGet("Books")]
         public async Task<ActionResult<List<Book>>> GetAllBooks()
         {
-            return Ok(Books);
+            return Ok(await _context.Books.ToListAsync());
+            //return Ok(Books);
         }
 
         [HttpGet("Books/{id}")]
         public async Task<ActionResult<Book>> GetOneBook(int id)
         {
-            var book = Books.Find((h => h.Id == id));
+            var book = await _context.Books.FindAsync(id);
             if (book == null)
             {
                 return BadRequest("Book not found");
@@ -75,41 +39,49 @@ namespace Library.Controllers
         public async Task<ActionResult<List<Book>>> AppendBook(Book request)
         {
 
-            var book = Books.Find(h => h.Id == request.Id);
+            var book = await _context.Books.FindAsync(request.Id);
             if (book == null)
                 return BadRequest("Book not found");
             book.Author = request.Author;
-            return Ok(Books);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Books.ToListAsync());
         }
 
         [HttpPost("Books")]
         public async Task<ActionResult<List<Book>>> PostBook(Book book)
         {
-            Books.Add(book);
-            return Ok(Books);
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Books.ToListAsync());
         }
 
         [HttpDelete("Books/{id}")]
         public async Task<ActionResult<List<Book>>> DeleteBook(int id)
         {
-            var book = Books.Find(h => h.Id == id);
+            var book = await _context.Books.FindAsync(id);
             if (book == null)
                 return BadRequest("Book not Found");
-            Books.Remove(book);
-            return Ok(Books);
+            _context.Books.Remove(book);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Books.ToListAsync());
         }
 
         [HttpGet("Employes")]
         public async Task<ActionResult<List<Employe>>> GetAllEmployes()
         {
-            return Ok(Employes);
+            return Ok(await _context.Employes.ToListAsync());
         }
 
         [HttpGet("Employes/{id}")]
         public async Task<ActionResult<Employe>> GetOneEmploye(int id)
         {
-            var employe = Employes.Find(h => h.Id == id);
-            if (Employes == null)
+            var employe = await _context.Employes.FindAsync(id);
+            if (_context.Employes == null)
             {
                 return BadRequest("Employe not found");
             }
@@ -119,7 +91,7 @@ namespace Library.Controllers
         [HttpPut("Employes")]
         public async Task<ActionResult<List<Employe>>> AppendEmploye(Employe request)
         {
-            var employe = Employes.Find(h => h.Id == request.Id);
+            var employe = await _context.Employes.FindAsync(request.Id);
             if (employe == null)
                 return BadRequest("Employe not found");
             employe.Name = request.Name;
@@ -128,36 +100,44 @@ namespace Library.Controllers
             employe.Mobile = request.Mobile;
             employe.Address = request.Address;
 
-            return Ok(Employes);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Employes.ToListAsync());
         }
 
         [HttpPost("Employes")]
         public async Task<ActionResult<List<Employe>>> AddEmploye(Employe request)
         {
-            Employes.Add(request);
-            return Ok(Employes);
+            _context.Employes.Add(request);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Employes.ToListAsync());
         }
 
         [HttpDelete("Employes/{id}")]
         public async Task<ActionResult<List<Employe>>> DeleteEmploye(int id)
         {
-            var employe = Employes.Find(h => h.Id == id);
+            var employe = await _context.Employes.FindAsync(id);
             if (employe == null)
                 return BadRequest("Employe not Found");
-            Employes.Remove(employe);
-            return Ok(Employes);
+            _context.Employes.Remove(employe);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Employes.ToListAsync());
         }
 
         [HttpGet("Customers")]
         public async Task<ActionResult<List<Customer>>> GetAllCustomers()
         {
-            return Ok(Customers);
+            return Ok(await _context.Customers.ToListAsync());
         }
 
         [HttpGet("Customers/{id}")]
         public async Task<ActionResult<Customer>> GetOneCustomer(int id)
         {
-            var customer = Customers.Find(h => h.Id == id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return BadRequest("Customer not Found");
@@ -168,14 +148,17 @@ namespace Library.Controllers
         [HttpPost("Customers")]
         public async Task<ActionResult<List<Employe>>> AddCustomer(Customer request)
         {
-            Customers.Add(request);
-            return Ok(Customers);
+            _context.Customers.Add(request);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Customers.ToListAsync());
         }
 
         [HttpPut("Customers")]
         public async Task<ActionResult<List<Customer>>> AppendCustomer(Customer request)
         {
-            var customer = Customers.Find(h => h.Id == request.Id);
+            var customer = await _context.Customers.FindAsync(request.Id);
             if (customer == null)
                 return BadRequest("Customer not found");
             customer.Name = request.Name;
@@ -184,19 +167,25 @@ namespace Library.Controllers
             customer.Mobile = request.Mobile;
             customer.Address = request.Address;
             customer.LoginName = request.LoginName;
-            
-            return Ok(Customers);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Customers.ToListAsync());
         }
-        
+
 
         [HttpDelete("Customers/{id}")]
         public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)
         {
-            var customer = Customers.Find(h => h.Id == id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
                 return BadRequest("Customer not Found");
-            Customers.Remove(customer);
-            return Ok(Customers);
+
+            _context.Customers.Remove(customer);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Customers.ToListAsync());
         }
         //*/
     }

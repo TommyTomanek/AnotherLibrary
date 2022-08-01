@@ -10,6 +10,7 @@ namespace Library.Data
         public Microsoft.EntityFrameworkCore.DbSet<Book> Books { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Person> Persons { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Customer> Customers { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Employe> Employes { get; set; }
 
 
 
