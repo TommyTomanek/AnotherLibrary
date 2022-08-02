@@ -5,7 +5,7 @@ namespace Library.Validation
 {
     public class ValidationCustomer : AbstractValidator<Customer>
     {
-        public void CustomerValidator()
+        public ValidationCustomer()
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).NotEmpty().WithMessage("Specify your name");
@@ -14,10 +14,13 @@ namespace Library.Validation
             RuleFor(x => x.Mobile).NotEmpty().WithMessage("Specify your telephone number");
             RuleFor(x => x.Mail).NotEmpty().WithMessage("Specify your mail address");
             RuleFor(x => x.LoginName).NotEmpty().WithMessage("You have to enter Login");
+            RuleFor(x => new { x.Mail, x.Mobile }).Must(m => HasMailOrMobile(m.Mail, m.Mobile))
+                   .WithMessage("Mail or mobile are missing");
+
         }
         private bool HasMailOrMobile(string Mobile, string Mail)
         {
-            if (Mobile == null && Mail == null)
+            if (string.IsNullOrEmpty(Mobile) && string.IsNullOrEmpty(Mail))
             {
                 return false;
             }

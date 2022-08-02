@@ -1,6 +1,8 @@
 global using Library.Data;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Library.Models;
+using Library.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -8,24 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers()
-    .AddFluentValidation(c =>
-    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+    .AddFluentValidation(options =>
+    {
+        options.RegisterValidatorsFromAssemblyContaining<Program>();
+        options.ImplicitlyValidateChildProperties = true;
+        options.ImplicitlyValidateRootCollectionElements = true;
+
+        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+    });
+
+//builder.Services.AddControllers()
+//    .AddFluentValidation(c =>
+//    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
-
-/*//--
-builder.Services.AddSwaggerGen(c => {
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-    c.IgnoreObsoleteActions();
-    c.IgnoreObsoleteProperties();
-    c.CustomSchemaIds(type => type.FullName);
-});
-*///--
+builder.Services.AddValidatorsFromAssemblyContaining<ValidationEmploye>();
+builder.Services.AddValidatorsFromAssemblyContaining<ValidationBook>();
+builder.Services.AddValidatorsFromAssemblyContaining<ValidationPerson>();
+builder.Services.AddValidatorsFromAssemblyContaining<ValidationCustomer>();
 
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 

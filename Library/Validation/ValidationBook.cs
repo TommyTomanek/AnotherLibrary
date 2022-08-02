@@ -5,7 +5,7 @@ namespace Library.Validation
 {
     public class ValidationBook : AbstractValidator<Book>
     {
-        public void BookValidator()
+        public ValidationBook()
         {
             RuleFor(x => x.Author)
                 .NotEmpty()

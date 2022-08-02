@@ -5,7 +5,7 @@ namespace Library.Validation
 {
     public class ValidationEmploye : AbstractValidator<Employe>
     {
-        public void EmployeValidator()
+        public ValidationEmploye()
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).NotEmpty().WithMessage("Specify your name");
