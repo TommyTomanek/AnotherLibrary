@@ -1,10 +1,8 @@
 global using Library.Data;
-using FluentValidation;
 using FluentValidation.AspNetCore;
-using Library.Models;
-using Library.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +11,6 @@ builder.Services.AddControllers()
     .AddFluentValidation(options =>
     {
         options.RegisterValidatorsFromAssemblyContaining<Program>();
-        options.ImplicitlyValidateChildProperties = true;
-        options.ImplicitlyValidateRootCollectionElements = true;
 
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     });
@@ -28,10 +24,13 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddValidatorsFromAssemblyContaining<ValidationEmploye>();
-builder.Services.AddValidatorsFromAssemblyContaining<ValidationBook>();
-builder.Services.AddValidatorsFromAssemblyContaining<ValidationPerson>();
-builder.Services.AddValidatorsFromAssemblyContaining<ValidationCustomer>();
+
+
+
+//builder.Services.AddValidatorsFromAssemblyContaining<ValidationEmploye>();
+//builder.Services.AddValidatorsFromAssemblyContaining<ValidationBook>();
+//builder.Services.AddValidatorsFromAssemblyContaining<ValidationPerson>();
+//builder.Services.AddValidatorsFromAssemblyContaining<ValidationCustomer>();
 
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
