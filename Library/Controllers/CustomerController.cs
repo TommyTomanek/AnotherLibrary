@@ -38,10 +38,6 @@ namespace Library.Controllers
         [HttpPost("Customers")]
         public async Task<ActionResult<List<Employe>>> AddCustomer(Customer request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("spatne zadano");
-            }
             _context.Customers.Add(request);
 
             await _context.SaveChangesAsync();

@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Library.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
-namespace Library.Controllers
+namespace Library.Models
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
     {
+        private readonly DbContext _dbContext;
+        private readonly ILogger<BookController> _logger;
+
+        public BookController(ILogger<BookController> logger, DbContext dbContext)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
+        }
         private readonly DataContext _context;
 
         public BookController(DataContext context)

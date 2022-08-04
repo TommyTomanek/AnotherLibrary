@@ -15,28 +15,19 @@ builder.Services.AddControllers()
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     });
 
-//builder.Services.AddControllers()
-//    .AddFluentValidation(c =>
-//    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
-
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
-
-
-//builder.Services.AddValidatorsFromAssemblyContaining<ValidationEmploye>();
-//builder.Services.AddValidatorsFromAssemblyContaining<ValidationBook>();
-//builder.Services.AddValidatorsFromAssemblyContaining<ValidationPerson>();
-//builder.Services.AddValidatorsFromAssemblyContaining<ValidationCustomer>();
-
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
 
 
 var app = builder.Build();

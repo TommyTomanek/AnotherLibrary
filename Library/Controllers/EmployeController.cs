@@ -54,6 +54,8 @@ namespace Library.Controllers
             employe.Mail = request.Mail;
             employe.Mobile = request.Mobile;
             employe.Address = request.Address;
+            employe.Superior = request.Superior;
+            employe.Inferiors = request.Inferiors;
 
             await _context.SaveChangesAsync();
 

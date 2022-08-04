@@ -1,6 +1,5 @@
 ﻿using Library.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Data
