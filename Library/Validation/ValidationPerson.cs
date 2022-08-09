@@ -7,7 +7,6 @@ namespace Library.Validation
     {
         public void PersonValidator()
         {
-            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).NotEmpty().WithMessage("Specify your name");
             RuleFor(x => x.Surname).NotEmpty().WithMessage("Specify your surname");
             RuleFor(x => x.Address).NotEmpty().WithMessage("Specify your address");

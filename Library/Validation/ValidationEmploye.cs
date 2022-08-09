@@ -7,7 +7,6 @@ namespace Library.Validation
     {
         public ValidationEmploye()
         {
-            RuleFor(x => x.Id).NotEmpty().NotNull();
             RuleFor(x => x.Name).NotEmpty().NotNull().WithMessage("Specify your name");
             RuleFor(x => x.Surname).NotEmpty().NotNull().WithMessage("Specify your surname");
             RuleFor(x => x.Address).NotEmpty().NotNull().WithMessage("Specify your address");
